@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Packiam Agro Centre – Your Trusted Partner</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f9f4;
+    color: #114b34;
+    padding-bottom: 140px;
+    line-height: 1.5;
+  }
+  header {
+    background: #1b4332;
+    color: #d8f3dc;
+    padding: 20px 15px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  header small {
+    display: block;
+    font-size: 16px;
+    margin-top: 6px;
+    color: #95d5b2;
+    font-weight: 600;
+  }
+
+  .tagline {
+    text-align: center;
+    margin: 25px 15px 35px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #2d6a4f;
+    font-style: italic;
+  }
+
+  .categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 18px;
+    padding: 0 15px;
+    max-width: 900px;
+    margin: 0 auto 40px;
+  }
+
+  .cat-btn {
+    background: linear-gradient(135deg, #40916c, #2d6a4f);
+    color: #e9f5ee;
+    border-radius: 12px;
+    padding: 25px 10px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 20px;
+    box-shadow: 0 5px 15px rgba(45, 106, 79, 0.6);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+  }
+  .cat-btn:hover {
+    transform: scale(1.07);
+    box-shadow: 0 10px 25px rgba(45, 106, 79, 0.9);
+  }
+  .cat-btn span {
+    display: block;
+    font-size: 36px;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.15));
+  }
+
+  #products-section {
+    display: none;
+    max-width: 900px;
+    margin: 0 auto 60px;
+    padding: 0 15px;
+  }
+
+  .back-btn {
+    margin: 20px 0 25px;
+    color: #2d6a4f;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 18px;
+    user-select: none;
+  }
+  .back-btn:hover {
+    color: #40916c;
+    text-decoration: underline;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 22px;
+  }
+
+  .product-card {
+    background: #d8f3dc;
+    border-radius: 14px;
+    padding: 15px 12px;
+    box-shadow: 0 6px 15px rgba(45, 106, 79, 0.3);
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    text-align: center;
+  }
+  .product-card:hover {
+    box-shadow: 0 10px 25px rgba(45, 106, 79, 0.55);
+  }
+  .product-card img {
+    width: 100%;
+    height: 160px; /* fixed height for uniformity */
+    object-fit: cover; /* crops image nicely to fill the space */
+    border-radius: 10px;
+    margin-bottom: 12px;
+    user-select: none;
+    background-color: #fff; /* optional: clean look if images have transparency */
+  }
+    /* This affects only the special image */
+  .product-card img.contain-img {
+    object-fit: contain; /* show full image */
+    background-color: #fff;
+    padding: 5px;
+  }
+
+
+  .product-name {
+    font-weight: 700;
+    font-size: 18px;
+    color: #114b34;
+    margin-bottom: 6px;
+  }
+  .product-qty {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #2d6a4f;
+  }
+  .product-quality {
+    font-size: 14px;
+    font-weight: 700;
+    background: #52b788;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    user-select: none;
+    box-shadow: 0 3px 7px rgba(40, 167, 69, 0.7);
+  }
+
+  #product-detail {
+    display: none;
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 92%;
+    max-width: 400px;
+    background: #e9f5ee;
+    border-radius: 18px;
+    padding: 25px 25px 30px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    user-select: none;
+  }
+  #product-detail .close-btn {
+    float: right;
+    font-weight: 900;
+    font-size: 28px;
+    cursor: pointer;
+    color: #2d6a4f;
+    user-select: none;
+    transition: color 0.2s ease;
+  }
+  #product-detail .close-btn:hover {
+    color: #40916c;
+  }
+  #product-detail h2 {
+    margin-bottom: 12px;
+    font-weight: 900;
+    color: #114b34;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  #product-detail p {
+    margin-bottom: 12px;
+    font-size: 16px;
+    color: #2d6a4f;
+  }
+  #product-detail p strong {
+    color: #1b4332;
+  }
+
+  #overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(45, 106, 79, 0.5);
+    z-index: 9988;
+  }
+
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1b4332;
+    color: white;
+    text-align: center;
+    padding: 18px 15px;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-weight: 700;
+    font-size: 15px;
+    box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.3);
+    user-select: none;
+  }
+  footer div {
+    margin: 5px 10px;
+    user-select: text;
+  }
+  .call-btn,
+  .whatsapp-btn {
+    background: #40916c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-weight: 700;
+    font-size: 17px;
+    border-radius: 28px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(64, 145, 108, 0.7);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+  .call-btn:hover {
+    background: #2d6a4f;
+  }
+  .whatsapp-btn {
+    background: #25d366;
+  }
+  .whatsapp-btn:hover {
+    background: #1ebe57;
+  }
+
+  @media (max-width: 480px) {
+    header {
+      font-size: 22px;
+    }
+    .cat-btn {
+      font-size: 17px;
+      padding: 18px 10px;
+    }
+    .cat-btn span {
+      font-size: 30px;
+      margin-bottom: 7px;
+    }
+    footer {
+      font-size: 14px;
+      flex-direction: column;
+      gap: 12px;
+      padding: 15px 10px;
+    }
+    .products-grid {
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 18px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  Packiam Agro Centre
+  <small>Near Martalli Bus Stand</small>
+</header>
+
+<div class="tagline">
+  <span style="color:#52b788;">Seeds, Feeds, Fertilizers & More — Trusted Quality, Trusted Growth!</span><br />
+  <em>Because Your Farm Deserves the Best!</em>
+</div>
+
+<div class="categories" id="categories">
+  <div class="cat-btn" data-cat="seeds"><span>🌱</span>Seeds<br /><small style="font-weight:400; font-size:14px; color:#a5d6a7;">Grow a Better Tomorrow</small></div>
+  <div class="cat-btn" data-cat="feeds"><span>🐄</span>Feeds<br /><small style="font-weight:400; font-size:14px; color:#a5d6a7;">Healthy Animals, Healthy Farm</small></div>
+  <div class="cat-btn" data-cat="fertilizers"><span>🌾</span>Fertilizers<br /><small style="font-weight:400; font-size:14px; color:#a5d6a7;">Nourish Your Soil Right</small></div>
+  <div class="cat-btn" data-cat="pesticides"><span>🐛</span>Pesticides<br /><small style="font-weight:400; font-size:14px; color:#a5d6a7;">Protect Your Crops with Care</small></div>
+  <div class="cat-btn" data-cat="cement"><span>🧱</span>UltraTech Cement<br /><small style="font-weight:400; font-size:14px; color:#a5d6a7;">Build Strong Foundations</small></div>
+  <div class="cat-btn" data-cat="steel"><span>🔩</span>Turbo Steel<br /><small style="font-weight:400; font-size:14px; color:#a5d6a7;">Durability You Can Trust</small></div>
+</div>
+
+<div id="products-section">
+  <div class="back-btn" id="back-to-categories">← Back to Categories</div>
+  <div class="products-grid" id="products-grid"></div>
+</div>
+
+<div id="overlay"></div>
+
+<div id="product-detail">
+  <div class="close-btn" id="close-detail" title="Close">&times;</div>
+  <h2 id="detail-name"></h2>
+  <p><strong>Quantity:</strong> <span id="detail-qty"></span></p>
+  <p><strong>Quality:</strong> <span id="detail-quality"></span></p>
+  <p id="detail-desc"></p>
+</div>
+
+<footer>
+  <div>📍 Marttalli Bus Stand</div>
+  <a href="tel:+9900420240" class="call-btn" aria-label="Call Packiam Agro Centre">📞 Call Now</a>
+  <a href="https://wa.me/9900420240?text=Hi%20Packiam%20Agro%20Centre!%20I%E2%80%99m%20interested%20in%20your%20products.%20Can%20you%20help%20me%20with%20some%20details%3F" target="_blank" class="whatsapp-btn" aria-label="WhatsApp enquiry to Packiam Agro Centre">
+💬 WhatsApp
+    </a>
+</footer>
+
+
+<script>
+  const productsData = {
+    seeds: [
+      {name:"Maize Seeds", qty:"4 kg", quality:"High Yield", desc:"Top-quality maize seeds for a rich and healthy harvest.", img:"images/corn1.jpg" },
+      {name:"Millet Seeds", qty:"10 kg", quality:"Rain-Resistant", desc:"Strong seeds that perform well in local weather conditions.", img:"images/millet1.jpg" },
+      {name:"Kaveri Seeds", qty:"4 kg", quality:"Govt Certified", desc:"Premium grade seeds for best growth and yield.", img:"images/corn2.jpg" },
+      {name:"Hi-Tech Seeds", qty:"4 kg", quality:"Elite Yield", desc:"Stronger Crops, Smarter Farming and High Harvesting!", img:"images/corn3.jpg" },
+      {name:"Sun Flower Seeds", qty:"4 kg", quality:"Premium Growth & Yield", desc:"“Sow the Best, Grow the Brightest!", img:"images/sunflower1.jpg" },
+    ],
+    feeds: [
+      {name:"PowerPlus Cattle Feed", qty:"50 kg", quality:"Boosts Milk", desc:"Mineral-enriched feed ensuring healthy and productive cows.", img:"images/feeds3.jpg"},
+      {name:"Surya Feed", qty:"25 kg", quality:"Fast Growth", desc:"Balanced nutrition for fast-growing and healthy poultry.", img:"images/feeds5.jpg"},
+    ],
+    fertilizers: [
+      {name:"Nitrogen Fertilizer", qty:"50 kg", quality:"High Purity", desc:"Enhances soil fertility and crop yield effectively.", img:"images/fertilizer1.jpg" },
+      {name:"Phosphate Fertilizer", qty:"25 kg", quality:"Slow Release", desc:"Provides long-lasting nourishment to your fields.", img:"images/fertilizer2.jpg" },
+      {name:"Urea Fertilizer", qty:"50 kg", quality:"Fuel for Growth", desc:"Boost your crops with the instant growth power of Urea fertilizer.", img:"images/urea.jpg" },
+    ],
+    pesticides: [
+      {name:"Insecticide Spray", qty:"1 L", quality:"Safe & Effective", desc:"Protect your crops from harmful insects without harm.", img:"images/pesticide1.jpg" },
+      {name:"Fungicide Powder", qty:"500 g", quality:"Fast Action", desc:"Prevents fungal growth and protects your harvest.", img:"images/pesticide2.jpg" },
+    ],
+    cement: [
+      {name:"UltraTech PPC Cement", qty:"50 kg", quality:"Strong & Durable", desc:"Perfect for solid and long-lasting construction projects.", img:"images/ultratech-cement.jpg", alt:"UltraTech",class:"contain-img"},
+      {name:"UltraTech OPC Cement", qty:"50 kg", quality:"Quick Setting", desc:"Reliable and fast-setting cement for all your needs.", img:"images/ultratech.jpg",class:"contain-img" },
+    ], 
+    steel: [
+      {name:"Turbo Steel Rod 8 mm", qty:"8 m", quality:"Lightweight Yet Tough", desc:"Turbo Steel rods engineered for flexibility and high tensile strength.", img:"images/8mm.jpg" },
+      {name:"Turbo Steel Rod 10 mm", qty:"10 m", quality:"Balanced Flexibility", desc:"Turbo Steel rods engineered for medium load-bearing structures with consistent reinforcement.", img:"images/10mm.jpg" },
+      {name:"Turbo Steel Rod 12 mm", qty:"12 m", quality:"Pressure-Resistant", desc:"Turbo Steel rods engineered for heavy-duty strength combined with excellent ductility.", img:"images/12mm.jpg" },
+      {name:"Turbo Steel Rod 16 mm", qty:"16 m", quality:"Ultra High Strength", desc:"Turbo Steel rods engineered for maximum strength and durability in every construction.", img:"images/16mm.jpg" },
+      {name:"Turbo Wire Mesh", qty:"1×2 m", quality:"Rust Resistant", desc:"Turbo Wire Mesh provides reliable reinforcement and long-lasting performance.", img:"images/wire.jpg" },
+    ]
+
+  };
+
+  const categoriesEl = document.getElementById('categories');
+  const productsSection = document.getElementById('products-section');
+  const productsGrid = document.getElementById('products-grid');
+  const backBtn = document.getElementById('back-to-categories');
+  const overlay = document.getElementById('overlay');
+  const productDetail = document.getElementById('product-detail');
+  const detailName = document.getElementById('detail-name');
+  const detailQty = document.getElementById('detail-qty');
+  const detailQuality = document.getElementById('detail-quality');
+  const detailDesc = document.getElementById('detail-desc');
+  const closeDetail = document.getElementById('close-detail');
+
+  categoriesEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.cat-btn');
+    if (!btn) return;
+    const cat = btn.dataset.cat;
+    showProducts(cat);
+  });
+
+  function showProducts(category) {
+    categoriesEl.style.display = 'none';
+    productsSection.style.display = 'block';
+    productsGrid.innerHTML = '';
+    const products = productsData[category] || [];
+    products.forEach(product => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <img src="${product.img}" alt="${product.alt || product.name}" loading="lazy" class="${product.class || ''}" />
+        <div class="product-name">${product.name}</div>
+        <div class="product-qty">Quantity: <strong>${product.qty}</strong></div>
+        <div class="product-quality">${product.quality}</div>
+      `;
+      card.addEventListener('click', () => {
+        detailName.textContent = product.name;
+        detailQty.textContent = product.qty;
+        detailQuality.textContent = product.quality;
+        detailDesc.textContent = product.desc;
+        productDetail.style.display = 'block';
+        overlay.style.display = 'block';
+      });
+      productsGrid.appendChild(card);
+    });
+  }
+
+  backBtn.addEventListener('click', () => {
+    productsSection.style.display = 'none';
+    categoriesEl.style.display = 'grid';
+  });
+
+  closeDetail.addEventListener('click', closeModal);
+  overlay.addEventListener('click', closeModal);
+
+  function closeModal() {
+    productDetail.style.display = 'none';
+    overlay.style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
