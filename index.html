@@ -319,8 +319,8 @@
 
 <footer>
   <div>📍 Marttalli Bus Stand</div>
-  <a href="tel:+91 9900420240" class="call-btn" aria-label="Call Packiam Agro Centre">📞 Call Now</a>
-  <a href="https://wa.me/+91 9900420240?text=Hi%20Packiam%20Agro%20Centre!%20I%E2%80%99m%20interested%20in%20your%20products.%20Can%20you%20help%20me%20with%20some%20details%3F" target="_blank" class="whatsapp-btn" aria-label="WhatsApp enquiry to Packiam Agro Centre">
+  <a href="tel:+9900420240" class="call-btn" aria-label="Call Packiam Agro Centre">📞 Call Now</a>
+  <a href="https://wa.me/9900420240?text=Hi%20Packiam%20Agro%20Centre!%20I%E2%80%99m%20interested%20in%20your%20products.%20Can%20you%20help%20me%20with%20some%20details%3F" target="_blank" class="whatsapp-btn" aria-label="WhatsApp enquiry to Packiam Agro Centre">
 💬 WhatsApp
     </a>
 </footer>
@@ -382,35 +382,45 @@
   });
 
   function showProducts(category) {
-    categoriesEl.style.display = 'none';
-    productsSection.style.display = 'block';
-    productsGrid.innerHTML = '';
-    const products = productsData[category] || [];
-    products.forEach(product => {
-      const card = document.createElement('div');
-      card.className = 'product-card';
-      card.innerHTML = `
-        <img src="${product.img}" alt="${product.alt || product.name}" loading="lazy" class="${product.class || ''}" />
-        <div class="product-name">${product.name}</div>
-        <div class="product-qty">Quantity: <strong>${product.qty}</strong></div>
-        <div class="product-quality">${product.quality}</div>
-      `;
-      card.addEventListener('click', () => {
-        detailName.textContent = product.name;
-        detailQty.textContent = product.qty;
-        detailQuality.textContent = product.quality;
-        detailDesc.textContent = product.desc;
-        productDetail.style.display = 'block';
-        overlay.style.display = 'block';
-      });
-      productsGrid.appendChild(card);
-    });
-  }
+  categoriesEl.style.display = 'none';
+  productsSection.style.display = 'block';
+  productsGrid.innerHTML = '';
 
+  // Push state to history
+  history.pushState({ category }, '', `#${category}`);
+
+  const products = productsData[category] || [];
+  products.forEach(product => {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.innerHTML = `
+      <img src="${product.img}" alt="${product.alt || product.name}" loading="lazy" class="${product.class || ''}" />
+      <div class="product-name">${product.name}</div>
+      <div class="product-qty">Quantity: <strong>${product.qty}</strong></div>
+      <div class="product-quality">${product.quality}</div>
+    `;
+    card.addEventListener('click', () => {
+      detailName.textContent = product.name;
+      detailQty.textContent = product.qty;
+      detailQuality.textContent = product.quality;
+      detailDesc.textContent = product.desc;
+      productDetail.style.display = 'block';
+      overlay.style.display = 'block';
+    });
+    productsGrid.appendChild(card);
+  });
+  }
+  <!--
   backBtn.addEventListener('click', () => {
     productsSection.style.display = 'none';
     categoriesEl.style.display = 'grid';
+  }); 
+  -->
+  
+  backBtn.addEventListener('click', () => {
+  history.back(); // This triggers the onpopstate event
   });
+
 
   closeDetail.addEventListener('click', closeModal);
   overlay.addEventListener('click', closeModal);
@@ -419,6 +429,18 @@
     productDetail.style.display = 'none';
     overlay.style.display = 'none';
   }
+    window.onpopstate = (event) => {
+    if (event.state?.category) {
+      showProducts(event.state.category);
+    } else {
+      // if no state, show main categories
+      categoriesEl.style.display = 'grid';
+      productsSection.style.display = 'none';
+      productDetail.style.display = 'none';
+      overlay.style.display = 'none';
+    }
+  };
 </script>
+
 </body>
 </html>
